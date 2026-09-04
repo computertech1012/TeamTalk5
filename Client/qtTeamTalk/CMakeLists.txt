@@ -99,6 +99,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
     chattextlist.h chattemplatesdlg.h
 
     main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp
+    channeltree_regression.cpp
     channelstree.cpp channeldlg.cpp channeltypedlg.cpp userinfodlg.cpp
     bannedusersdlg.cpp useraccountsdlg.cpp videogridwidget.cpp
     uservideodlg.cpp serverpropertiesdlg.cpp keycompdlg.cpp

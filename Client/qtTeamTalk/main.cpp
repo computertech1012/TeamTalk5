@@ -285,6 +285,11 @@ static bool showVersionOnly(int argc, char* argv[])
     return false;
 }
 
+/* Channel-tree lifecycle regression harness (TEAMTALK_CHANNELTREE_TEST=1).
+ * Runs headless before MainWindow::show() and then exits. */
+class ChannelsTree;
+int channelTreeRegressionRun(ChannelsTree* tree);
+
 int main(int argc, char* argv[])
 {
     if (showVersionOnly(argc, argv)) return 0;
@@ -325,6 +330,19 @@ int main(int argc, char* argv[])
     ttInst = TT_InitTeamTalkPoll();
 #endif
     
+    if (qEnvironmentVariableIsSet("TEAMTALK_CHANNELTREE_TEST"))
+    {
+        ChannelsTree* channels = window.findChild<ChannelsTree*>("channelsWidget");
+        if (!channels)
+        {
+            TT_CloseTeamTalk(ttInst);
+            return 10;
+        }
+        int rc = channelTreeRegressionRun(channels);
+        TT_CloseTeamTalk(ttInst);
+        return rc;
+    }
+
     window.loadSettings(); //load settings now that we have ttInst
 
     window.show();
